@@ -16,7 +16,7 @@ Llegir el fitxer de dades i consultar el nom de les columnes del fitxer.
 
 ```{r}
 tryCatch({
-  data <- read.csv("pisa2009-1.csv")
+  data <- read.csv("pisa2009-1.csv", header = TRUE)
   print("El fitxer s'ha llegit correctament")
 }, error = function(e){
   print("ERROR en el moment de llegir el document:",conditionMessage(e), "\n")
@@ -70,19 +70,58 @@ Com s'ha fet enteriorment, per tal de facilitar la visualització dels percentat
 Abans de representar les dades en el diagrama de pastís, es pot observar que en el conjunt de dades hi ha alguns errors. Per exemple: "White", "white", "whit", per tant, abans de representar les dades en el diagrama s'han de rectificar els errors del _dataset_
 
 ```{r}
-
+data$raceeth <- gsub("\\bwhite\\b", "White", data$raceeth, ignore.case = TRUE)
+data$raceeth <- gsub("\\bwhit\\b", "White", data$raceeth, ignore.case = TRUE)
+data$raceeth <- gsub("\\bAssian\\b", "Asian", data$raceeth, ignore.case = TRUE)
+data$raceeth <- gsub("\\bAsiann\\b", "Asian", data$raceeth, ignore.case = TRUE)
+write.csv(data, "pisa_clean.csv", row.names = FALSE)
+print("File has been corrected succesfully")
 ```
-
-
-Finalment, es representen aquests percentatges en un diagrama de pastís.
+Totes les correccions de les dades qualitatives es guardaràn en el nou fitxer corregit en el qual es guardaràn totes les correccions que anirem fent. Aquest nou fitxer s'anomena _pisa\_clean.csv_
+Tornem a repetir els passos de lectura i consulta de les categories però ara amb el fitxer corregit.
 
 ```{r}
-percentages_not_rounded <- prop.table(table(data$raceeth)) * 100
-pie(percentages_not_rounded, labels=categories_raceeth)
+tryCatch({
+  data2 <- read.csv("pisa_clean.csv", header = TRUE)
+  print("El fitxer amb les dades corregides s'ha llegit correctament")
+}, error = function(e){
+  print("ERROR en el moment de llegir el document:",conditionMessage(e), "\n")
+})
+
 ```
+```{r}
+categories_raceeth2 <- unique(data2$raceeth)
+print(categories_raceeth2)
+```
+Com es pot obbservar, un cop corregides les categories de la variable qualitativa _raceeth_, apareixen menys categories a representar en el diagrama de pastís.
+
+```{r}
+percentages_rounded2 <- round(prop.table(table(data2$raceeth)) * 100, 2)
+for (i in seq_along(categories_raceeth2)) {
+  cat("La categoria",categories_raceeth2[i], "té un percetatge de ", percentages_rounded2[i],"%", "\n")
+}
+```
+```{r}
+percentages_not_rounded_aux <- prop.table(table(data2$raceeth)) * 100
+print(percentages_not_rounded_aux)
+```
+En aquesta última cel·la es veuen els percentatges exactes de les categories un cop corregits els noms mal escrits
+
+```{r}
+percentages_not_rounded <- prop.table(table(data2$raceeth)) * 100
+pie(percentages_not_rounded, labels=categories_raceeth2)
+```
+En el diagrama anterior es representen les categories corregides. Com s'observa hi ha una categoria del diagrama que no té etiqueta, això és degut a que en el fitxer csv aquesta categoría correspon a NA.
 
 
+# 3: Normalització i descripció de variables binàries
 
+```{r}
+table_exercise3 <- matrix(data = NA, nrow = 16, ncol = 5)
+colnames(table_exercise3) <- c("Variable", "Number of students with value 1", "Number of students with value 0", "Proportion value 1", "Proportion value 0")
+variable_names <- c("preschool", "expectBachelors", "motherHS", "motherBachelors", "motherWork", "fatherHS", "fatherBachelors", "fatherWork", "selfBornUS", "motherBornUS", "fatherBornUS", "englishAtHome", "computerForSchoolwork", "schoolHasLibrary", "publicSchool", "urban")
+table_exercise3[, 1] <- variable_names
+```
 
 
 
