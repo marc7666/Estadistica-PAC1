@@ -12,7 +12,7 @@ output:
 
 ## 1.1 Carregar el fitxer de dades
 
-Llegir el fitxer de dades i consultar el nom de les columnes del fitxer.
+### Llegir el fitxer de dades i consultar el nom de les columnes del fitxer.
 
 ```{r}
 tryCatch({
@@ -32,7 +32,7 @@ print(columns)
 
 ## 1.2 Examinar el tipus de vasriables
 
-Indicar quines variables són de naturalesa numèrica, caràcter i categòrica.En cas que el tipus de variable que ha atorgat R no coincideixi amb el tipus que li correspondria, indicar de quines variables es tracta. Considereu que les variables binàries prenen valors 1 o 0. La transformació corresponent, si és necessària, s’aplicarà en els apartats següents, una vegada normalitzades les variables.
+### Indicar quines variables són de naturalesa numèrica, caràcter i categòrica.En cas que el tipus de variable que ha atorgat R no coincideixi amb el tipus que li correspondria, indicar de quines variables es tracta. Considereu que les variables binàries prenen valors 1 o 0. La transformació corresponent, si és necessària, s’aplicarà en els apartats següents, una vegada normalitzades les variables.
 
 ```{r}
 type <- sapply(data, class)
@@ -42,24 +42,26 @@ for (i in seq_along(columns)) {
 }
 ```
 
-La funció _sapply_ ens permet obtenir el tipus de dades que hi ha en cada columna. Per a fer més senzilla la visualització de la categoría i el seu tipus, s'utilitza un bucle de tipus _for_ per a treure per pantalla una frase on es relaciona cada categoria amb el seu tipus.
+La funció *sapply* ens permet obtenir el tipus de dades que hi ha en cada columna. Per a fer més senzilla la visualització de la categoría i el seu tipus, s'utilitza un bucle de tipus *for* per a treure per pantalla una frase on es relaciona cada categoria amb el seu tipus.
 
 # 2: Normalizació de variables qualitatives (text)
 
 ## 2.1 Variable raceeth
 
-Mostreu les categories de la variable raceeth. En cas d’inconsistències o errors, corregiu la informació. A continuació, mostreu el percentatge d’estudiants a cada categoria i dibuixeu un gràfic circular (pie chart).
+### Mostreu les categories de la variable raceeth. En cas d’inconsistències o errors, corregiu la informació. A continuació, mostreu el percentatge d’estudiants a cada categoria i dibuixeu un gràfic circular (pie chart).
 
 ```{r}
 categories_raceeth <- unique(data$raceeth)
 print(categories_raceeth)
 ```
 
-La funció _unique()_ ens permet obtenir els diferents valors únics que hi ha en el conjunt de dades que estem estudiant, en aquest cas, la columna _raceeth_.
+La funció *unique()* ens permet obtenir els diferents valors únics que hi ha en el conjunt de dades que estem estudiant, en aquest cas, la columna *raceeth*.
+
 ```{r}
 percentages_rounded <- round(prop.table(table(data$raceeth)) * 100, 2)
 for (i in seq_along(categories_raceeth)) {
-  cat("La categoria",categories_raceeth[i], "té un percetatge de ", percentages_rounded[i],"%", "\n")
+  cat("La categoria",categories_raceeth[i], "té un percetatge de ",
+      percentages_rounded[i],"%", "\n")
 }
 ```
 
@@ -67,7 +69,7 @@ En aquest últim apartat cal posar èmfasi en que s'han arrodonit els percentatg
 
 Com s'ha fet enteriorment, per tal de facilitar la visualització dels percentatges, s'ha tret per pantalla una frase amb cada categoria i el tant per cent que representa.
 
-Abans de representar les dades en el diagrama de pastís, es pot observar que en el conjunt de dades hi ha alguns errors. Per exemple: "White", "white", "whit", per tant, abans de representar les dades en el diagrama s'han de rectificar els errors del _dataset_
+Abans de representar les dades en el diagrama de pastís, es pot observar que en el conjunt de dades hi ha alguns errors. Per exemple: "White", "white", "whit", per tant, abans de representar les dades en el diagrama s'han de rectificar els errors del *dataset*
 
 ```{r}
 data$raceeth <- gsub("\\bwhite\\b", "White", data$raceeth, ignore.case = TRUE)
@@ -77,8 +79,8 @@ data$raceeth <- gsub("\\bAsiann\\b", "Asian", data$raceeth, ignore.case = TRUE)
 write.csv(data, "pisa_clean.csv", row.names = FALSE)
 print("File has been corrected succesfully")
 ```
-Totes les correccions de les dades qualitatives es guardaràn en el nou fitxer corregit en el qual es guardaràn totes les correccions que anirem fent. Aquest nou fitxer s'anomena _pisa\_clean.csv_
-Tornem a repetir els passos de lectura i consulta de les categories però ara amb el fitxer corregit.
+
+Totes les correccions de les dades qualitatives es guardaràn en el nou fitxer corregit en el qual es guardaràn totes les correccions que anirem fent. Aquest nou fitxer s'anomena *pisa_clean.csv* Tornem a repetir els passos de lectura i consulta de les categories però ara amb el fitxer corregit.
 
 ```{r}
 tryCatch({
@@ -89,40 +91,87 @@ tryCatch({
 })
 
 ```
+
 ```{r}
 categories_raceeth2 <- unique(data2$raceeth)
 print(categories_raceeth2)
 ```
-Com es pot obbservar, un cop corregides les categories de la variable qualitativa _raceeth_, apareixen menys categories a representar en el diagrama de pastís.
+
+Com es pot obbservar, un cop corregides les categories de la variable qualitativa *raceeth*, apareixen menys categories a representar en el diagrama de pastís.
 
 ```{r}
 percentages_rounded2 <- round(prop.table(table(data2$raceeth)) * 100, 2)
 for (i in seq_along(categories_raceeth2)) {
-  cat("La categoria",categories_raceeth2[i], "té un percetatge de ", percentages_rounded2[i],"%", "\n")
+  cat("La categoria",categories_raceeth2[i], "té un percetatge de ",
+      percentages_rounded2[i],"%", "\n")
 }
 ```
+
 ```{r}
 percentages_not_rounded_aux <- prop.table(table(data2$raceeth)) * 100
 print(percentages_not_rounded_aux)
 ```
+
 En aquesta última cel·la es veuen els percentatges exactes de les categories un cop corregits els noms mal escrits
 
 ```{r}
 percentages_not_rounded <- prop.table(table(data2$raceeth)) * 100
 pie(percentages_not_rounded, labels=categories_raceeth2)
 ```
-En el diagrama anterior es representen les categories corregides. Com s'observa hi ha una categoria del diagrama que no té etiqueta, això és degut a que en el fitxer csv aquesta categoría correspon a NA.
 
+En el diagrama anterior es representen les categories corregides. Com s'observa hi ha una categoria del diagrama que no té etiqueta, això és degut a que en el fitxer csv aquesta categoría correspon a NA.
 
 # 3: Normalització i descripció de variables binàries
 
+### El conjunt de dades conté un nombre elevat de variables binàries. Reviseu els seus valors i en cas d’errors o inconsistències, corregiu els valors a partir dels criteris indicats. A continuació, resumiu en una taula la proporció d’estudiants per als valors positius (1) i els valors negatius (0) d’aquestes variables. Interpreteu breument.
+
+### Requisits:
+
+### • La taula ha de contenir una variable a cada fila i quatre columnes: nombre d’estudiants amb valor 0 a la variable, nombre d’estudiants amb valor 1, proporció d’estudiants amb valor 0 i proporció d’estudiants amb valor 1.
+
+### • Es recomana generar la taula de forma automàtica, sense haver de fer el càlcul manualment per a cada variable. Podeu fer servir funcions de la família *apply* per automatitzar aquest càlcul.
+
 ```{r}
-table_exercise3 <- matrix(data = NA, nrow = 16, ncol = 5)
-colnames(table_exercise3) <- c("Variable", "Number of students with value 1", "Number of students with value 0", "Proportion value 1", "Proportion value 0")
-variable_names <- c("preschool", "expectBachelors", "motherHS", "motherBachelors", "motherWork", "fatherHS", "fatherBachelors", "fatherWork", "selfBornUS", "motherBornUS", "fatherBornUS", "englishAtHome", "computerForSchoolwork", "schoolHasLibrary", "publicSchool", "urban")
-table_exercise3[, 1] <- variable_names
+total_data <- nrow(data)
+calculate_stats <- function(col_name){
+  number_of_1 <- sum(col_name == 1, na.rm = TRUE)
+  number_of_0 <- sum(col_name == 0, na.rm = TRUE)
+  ratio_1 <- number_of_1 / total_data
+  ratio_0 <- number_of_0 / total_data
+  c(number_of_1, number_of_0, ratio_1, ratio_0)
+}
 ```
 
+En la cèl·la anterior, es mostra l'obtenció del nombre de files que hi ha en el fitxer csv i la definició d'una funció que ens permetrà realitzar el càlcul de les diferents estadístiques. El paràmetre *na.rm* s'estableix a *TRUE* ja que en les dades tenim valors del tipus *NA* i per tant si no establim aquest paràmetre a cert, els càlculs donaràn com a resultat *NA*. Aquest paràmetre establert a *TRUE* fa que s'ignorin els valors *NA*.
 
+```{r}
+binary_columns <- data[, c("male","preschool", "expectBachelors", "motherHS",
+                           "motherBachelors","motherWork", "fatherHS",
+                           "fatherBachelors","fatherWork", "selfBornUS",
+                           "motherBornUS", "fatherBornUS", "englishAtHome",
+                           "computerForSchoolwork","schoolHasLibrary",
+                           "publicSchool", "urban")]
+```
 
+Un cop executada l'última cèl·la, ja tenim seleccionades les columnes amb variables binàries a les quals volem aplicar els diferents càlculs.
 
+```{r}
+calculations <- t(apply(binary_columns, 2, calculate_stats))
+# 2 = Apply function in each column
+```
+
+Ara ja tenim els càlculs realitzats i en una taula, però si treiem per pantalla la taula, tal i com es mostra en la següent cèl·la, les columnes no tenen un nom que permeti identificar correctament el càlcul realitzat.
+
+```{r}
+print(calculations)
+```
+
+```{r}
+colnames(calculations) <- c("Number of 1", "Number of 0", "Poportion 1", "Proportion 0")
+```
+
+Si tornem a treure per pantalla la taula amb els càlculs, podrem observar que, ara sí, les columnes apareixen amb el nom que els hi pertoca.
+
+```{r}
+print(calculations)
+```
