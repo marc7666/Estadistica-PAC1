@@ -23,7 +23,7 @@ tryCatch({
 })
 ```
 
-Si per alguna raó el fitxer no es pot llegir, en haver un block tryCatch, es treurà per pantalla un missatge d'error. En cas de poder-se llegir sense problema i que tot vagi bé, a més de llegir-se el fitxer es treurà un missatge per pantalla indicant que el fitxer s'ha llegit correctament.
+Si per alguna raó el fitxer no es pot llegir, en haver-hi un block tryCatch, es traurà per pantalla un missatge d'error. En cas de poder-se llegir sense problema i que tot vagi bé, a més de llegir-se el fitxer es traurà un missatge per pantalla indicant que el fitxer s'ha llegit correctament.
 
 ```{r}
 columns <- names(data)
@@ -42,7 +42,7 @@ for (i in seq_along(columns)) {
 }
 ```
 
-La funció *sapply* ens permet obtenir el tipus de dades que hi ha en cada columna. Per a fer més senzilla la visualització de la categoría i el seu tipus, s'utilitza un bucle de tipus *for* per a treure per pantalla una frase on es relaciona cada categoria amb el seu tipus.
+La funció *sapply* ens permet obtenir el tipus de dades que hi ha en cada columna. Per a fer més senzilla la visualització de la categoria i el seu tipus, s'utilitza un bucle de tipus *for* per a treure per pantalla una frase on es relaciona cada categoria amb el seu tipus.
 
 # 2: Normalizació de variables qualitatives (text)
 
@@ -65,9 +65,9 @@ for (i in seq_along(categories_raceeth)) {
 }
 ```
 
-En aquest últim apartat cal posar èmfasi en que s'han arrodonit els percentatges i per tant no són exactes.
+En aquest últim apartat cal posar èmfasi en el fet que s'han arrodonit els percentatges i, per tant, no són exactes.
 
-Com s'ha fet enteriorment, per tal de facilitar la visualització dels percentatges, s'ha tret per pantalla una frase amb cada categoria i el tant per cent que representa.
+Com s'ha fet anteriorment, per tal de facilitar la visualització dels percentatges, s'ha tret per pantalla una frase amb cada categoria i el tant per cent que representa.
 
 Abans de representar les dades en el diagrama de pastís, es pot observar que en el conjunt de dades hi ha alguns errors. Per exemple: "White", "white", "whit", per tant, abans de representar les dades en el diagrama s'han de rectificar els errors del *dataset*
 
@@ -84,7 +84,7 @@ tryCatch({
 })
 ```
 
-Totes les correccions de les dades qualitatives es guardaràn en el nou fitxer corregit en el qual es guardaràn totes les correccions que anirem fent. Aquest nou fitxer s'anomena *pisa_clean.csv* Tornem a repetir els passos de lectura i consulta de les categories però ara amb el fitxer corregit.
+Totes les correccions de les dades qualitatives es guardaran en el nou fitxer corregit en el qual es guardaran totes les correccions que anirem fent. Aquest nou fitxer s'anomena *pisa_clean.csv* Tornem a repetir els passos de lectura i consulta de les categories però ara amb el fitxer corregit.
 
 ```{r}
 tryCatch({
@@ -101,7 +101,7 @@ categories_raceeth2 <- unique(data2$raceeth)
 print(categories_raceeth2)
 ```
 
-Com es pot obbservar, un cop corregides les categories de la variable qualitativa *raceeth*, apareixen menys categories a representar en el diagrama de pastís.
+Com es pot observar, un cop corregides les categories de la variable qualitativa *raceeth*, apareixen menys categories a representar en el diagrama de pastís.
 
 ```{r}
 percentages_rounded2 <- round(prop.table(table(data2$raceeth)) * 100, 2)
@@ -123,7 +123,7 @@ percentages_not_rounded <- prop.table(table(data2$raceeth)) * 100
 pie(percentages_not_rounded, labels=categories_raceeth2)
 ```
 
-En el diagrama anterior es representen les categories corregides. Com s'observa hi ha una categoria del diagrama que no té etiqueta, això és degut a que en el fitxer csv aquesta categoría correspon a NA.
+En el diagrama anterior es representen les categories corregides. Com s'observa hi ha una categoria del diagrama que no té etiqueta, això és degut al fet que en el fitxer csv aquesta categoria correspon a NA.
 
 # 3: Normalització i descripció de variables binàries
 
@@ -146,7 +146,7 @@ calculate_stats <- function(col_name){
 }
 ```
 
-En la cèl·la anterior, es mostra l'obtenció del nombre de files que hi ha en el fitxer csv i la definició d'una funció que ens permetrà realitzar el càlcul de les diferents estadístiques. El paràmetre *na.rm* s'estableix a *TRUE* ja que en les dades tenim valors del tipus *NA* i per tant si no establim aquest paràmetre a cert, els càlculs donaràn com a resultat *NA*. Aquest paràmetre establert a *TRUE* fa que s'ignorin els valors *NA*.
+En la cel·la anterior, es mostra l'obtenció del nombre de files que hi ha en el fitxer csv i la definició d'una funció que ens permetrà realitzar el càlcul de les diferents estadístiques. El paràmetre *na.rm* s'estableix a *TRUE*, ja que en les dades tenim valors del tipus *NA* i, per tant, si no establim aquest paràmetre a cert, els càlculs donaran com a resultat *NA*. Aquest paràmetre establert a *TRUE* fa que s'ignorin els valors *NA*.
 
 ```{r}
 binary_columns <- data[, c("male","preschool", "expectBachelors", "motherHS",
@@ -157,14 +157,14 @@ binary_columns <- data[, c("male","preschool", "expectBachelors", "motherHS",
                            "publicSchool", "urban")]
 ```
 
-Un cop executada l'última cèl·la, ja tenim seleccionades les columnes amb variables binàries a les quals volem aplicar els diferents càlculs.
+Un cop executada l'última cel·la, ja tenim seleccionades les columnes amb variables binàries a les quals volem aplicar els diferents càlculs.
 
 ```{r}
 calculations <- t(apply(binary_columns, 2, calculate_stats))
 # 2 = Apply function in each column
 ```
 
-Ara ja tenim els càlculs realitzats i en una taula, però si treiem per pantalla la taula, tal i com es mostra en la següent cèl·la, les columnes no tenen un nom que permeti identificar correctament el càlcul realitzat.
+Ara ja tenim els càlculs realitzats i en una taula, però si traiem per pantalla la taula, tal com es mostra en la següent cel·la, les columnes no tenen un nom que permeti identificar correctament el càlcul realitzat.
 
 ```{r}
 print(calculations)
@@ -185,14 +185,14 @@ print(calculations)
 
 ### Reviseu els valors de la variable readingScore i verifiqueu que estiguin dins dels marges esperats. Si hi ha algun valor erroni o molt extrem, substituir per NA. Mostreu un gràfic de tipus boxplot per visualitzar la distribució d’aquesta variable. Interpreteu el resultat.
 
-En primer lloc, s'ha de seleccionar la columna en la qual volem realitzar la comprovació del rang de valors. Tot seguit aplicar la correcció que es demana tot especificant que la correcció s'aplicarà a aquells valors menors a 0 o a aquells valors majors a 1000. Abans de fer cap correcció però , cal transformar els valors a valors numèrics, ja que segons consta a la tercera cèl·la de codi (on s'han consultat els tipus), els valors d'aquesta variable son de tipus _character_.  Un cop fetes les correcccions, es guardaràn en el fitxer de correccions que hem creat anteriorment anomenat _pisa\_clean.csv_.
+En primer lloc, s'ha de seleccionar la columna en la qual volem realitzar la comprovació del rang de valors. Tot seguit aplicar la correcció que es demana tot especificant que la correcció s'aplicarà a aquells valors menors a 0 o a aquells valors majors a 1000. Abans de fer cap correcció, però, cal transformar els valors a valors numèrics, ja que segons consta a la tercera cel·la de codi (on s'han consultat els tipus), els valors d'aquesta variable son de tipus _character_.  Un cop fetes les correccions, es guardaran en el fitxer de correccions que hem creat anteriorment anomenat _pisa\_clean.csv_.
 
 ```{r}
 data$readingScore <- as.numeric(data$readingScore) # Conversio str-int
 data$readingScore[data$readingScore < 0 | data$readingScore > 1000] <- NA
 cat("Correccions aplicades correctament")
 ```
-Un cop cop fetes les correccions, cal guardar-les al fitxer de correccions.
+Un cop fetes les correccions, cal guardar-les al fitxer de correccions.
 
 ```{r}
 tryCatch({
@@ -225,13 +225,35 @@ boxplot(data2$readingScore, main = "Diagrama de caixa de les puntuacions de lect
 
 ### Mostreu visualment la distribució de la variable grade (curs). A continuació, reviseu si els valors de la variable grade estan dins dels marges raonables. Per a la mostra d’estudi, composta per estudiants de 15 anys, es correspondria al desè curs. Hi poden haver casos d’estudiants que estiguin en cursos més avançats o en cursos inferiors. Si hi ha un valor extrem o erroni, s’ha de substituir per NA.
 
+Per a mostrar la distribució de la variable es considera que la millor opció és mitjançant un gràfic de densitat, ja que aquests mostren la forma real de la distribució.
 
+```{r}
+plot(density(data$grade), main = "Distribució de cursos", xlab = "Curs")
+```
 
+Com es pot observar en el gràfic, la gran majoria de la densitat se l'emporta la categoria del desè curs (tal com s'esperava). En aquest cas, es considera que no hi ha cap valor extrem/erroni atès que en el gràfic de densitat els cursos que tenen alguna rellevància (a més del desè curs) són un curs per sota o un curs per sobre i, per tant, s'ajusta al que diu l'enunciat respecte a què hi poden haver casos d'estudiants que estiguin en cursos més avançats o en cursos inferiors.
 
+## 4.3 Variable schoolSize
 
+### Mostreu visualment la distribució de la variable schoolSize. Si hi ha valors erronis, substituïu per NA. La imputació es farà més endavant.
 
+Pel mateix motiu que en l'apartat anterior, es mostrarà la distribució de la variable mitjançant un gràfic de densitat.
 
+```{r}
+par(xaxt = "n") # No incloure les etiquetes de l'eix x
+plot(density(data$schoolSize, na.rm = TRUE), main = "Nombre d'estudiants a l'escola",
+     xlab = "Quantitat d'alumnes")
+par(xaxt = "s") # Incloure les etiquetes de l'eix x
+axis(1, at = seq(0, 8000, by = 500), las = 2)
+```
 
+```{r}
+filtrat <- data$schoolSize[data$schoolSize <= 0 & !is.na(data$schoolSize)]
+print(filtrat)
+```
+
+Com es pot observar en el gràfic de dispersió, la gran majoria d'escoles es troben en un nivell d'alumnat d'entre 1000 i 1500 alumnes.
+En aquest cas, no es considera que hi hagi valors erronis en el conjunt de dades atès que l'únic valor que es pot considerar erroni és que l'escola tingui un nombre negatiu d'alumnes o que no tingui alumnes i com es pot comprovar en la cel·la de codi anterior no hi ha cap valor igual o inferior a 0 pel que fa a nombre d'alumnes.
 
 
 
