@@ -255,6 +255,10 @@ print(filtrat)
 Com es pot observar en el gràfic de dispersió, la gran majoria d'escoles es troben en un nivell d'alumnat d'entre 1000 i 1500 alumnes.
 En aquest cas, no es considera que hi hagi valors erronis en el conjunt de dades atès que l'únic valor que es pot considerar erroni és que l'escola tingui un nombre negatiu d'alumnes o que no tingui alumnes i com es pot comprovar en la cel·la de codi anterior no hi ha cap valor igual o inferior a 0 pel que fa a nombre d'alumnes.
 
+# 5: Imputació
+
+## En aquest apartat, farem la imputació sobre els valors perduts de la variable schoolSize. Apliqueu imputació per veïns més propers, utilitzant la distància de Gower, considerant en el còmput dels veïns més propers les variables numèriques. Per realitzar aquesta imputació, es pot fer servir la funció “kNN” de la llibreria VIM amb un nombre de veïns igual a 5. Demostreu que la imputació s’ha realitzat correctament, visualitzant algunes de les dades afectades per la imputació. Finalment, analitzeu des d’un punt de vista crític el procés d’imputació realitzat.
+
 
 
 
