@@ -19,7 +19,7 @@ tryCatch({
   data <- read.csv("pisa2009-1.csv", header = TRUE)
   print("El fitxer s'ha llegit correctament")
 }, error = function(e){
-  print("ERROR en el moment de llegir el document:",conditionMessage(e), "\n")
+  cat("ERROR en el moment de llegir el document:",conditionMessage(e), "\n")
 })
 ```
 
@@ -72,12 +72,16 @@ Com s'ha fet enteriorment, per tal de facilitar la visualització dels percentat
 Abans de representar les dades en el diagrama de pastís, es pot observar que en el conjunt de dades hi ha alguns errors. Per exemple: "White", "white", "whit", per tant, abans de representar les dades en el diagrama s'han de rectificar els errors del *dataset*
 
 ```{r}
-data$raceeth <- gsub("\\bwhite\\b", "White", data$raceeth, ignore.case = TRUE)
-data$raceeth <- gsub("\\bwhit\\b", "White", data$raceeth, ignore.case = TRUE)
-data$raceeth <- gsub("\\bAssian\\b", "Asian", data$raceeth, ignore.case = TRUE)
-data$raceeth <- gsub("\\bAsiann\\b", "Asian", data$raceeth, ignore.case = TRUE)
-write.csv(data, "pisa_clean.csv", row.names = FALSE)
-print("File has been corrected succesfully")
+tryCatch({
+  data$raceeth <- gsub("\\bwhite\\b", "White", data$raceeth, ignore.case = TRUE)
+  data$raceeth <- gsub("\\bwhit\\b", "White", data$raceeth, ignore.case = TRUE)
+  data$raceeth <- gsub("\\bAssian\\b", "Asian", data$raceeth, ignore.case = TRUE)
+  data$raceeth <- gsub("\\bAsiann\\b", "Asian", data$raceeth, ignore.case = TRUE)
+  write.csv(data, "pisa_clean.csv", row.names = FALSE)
+  print("File has been corrected succesfully")
+}, error = function(e){
+ cat("ERROR en aplicar les correccions.",conditionMessage(e), "\n") 
+})
 ```
 
 Totes les correccions de les dades qualitatives es guardaràn en el nou fitxer corregit en el qual es guardaràn totes les correccions que anirem fent. Aquest nou fitxer s'anomena *pisa_clean.csv* Tornem a repetir els passos de lectura i consulta de les categories però ara amb el fitxer corregit.
@@ -175,3 +179,66 @@ Si tornem a treure per pantalla la taula amb els càlculs, podrem observar que, 
 ```{r}
 print(calculations)
 ```
+# 4: Normalització de variables quantitatives
+
+## 4.1 Variable readingScore
+
+### Reviseu els valors de la variable readingScore i verifiqueu que estiguin dins dels marges esperats. Si hi ha algun valor erroni o molt extrem, substituir per NA. Mostreu un gràfic de tipus boxplot per visualitzar la distribució d’aquesta variable. Interpreteu el resultat.
+
+En primer lloc, s'ha de seleccionar la columna en la qual volem realitzar la comprovació del rang de valors. Tot seguit aplicar la correcció que es demana tot especificant que la correcció s'aplicarà a aquells valors menors a 0 o a aquells valors majors a 1000. Abans de fer cap correcció però , cal transformar els valors a valors numèrics, ja que segons consta a la tercera cèl·la de codi (on s'han consultat els tipus), els valors d'aquesta variable son de tipus _character_.  Un cop fetes les correcccions, es guardaràn en el fitxer de correccions que hem creat anteriorment anomenat _pisa\_clean.csv_.
+
+```{r}
+data$readingScore <- as.numeric(data$readingScore) # Conversio str-int
+data$readingScore[data$readingScore < 0 | data$readingScore > 1000] <- NA
+cat("Correccions aplicades correctament")
+```
+Un cop cop fetes les correccions, cal guardar-les al fitxer de correccions.
+
+```{r}
+tryCatch({
+  write.csv(data, "pisa_clean.csv", row.names = FALSE)
+  cat("Correccions aplicades al fitxer final")
+}, error = function(e){
+  cat("ERROR en escriure els canvis.", conditionMessage(e), "\n")
+})
+```
+
+En aquest punt, les correccions han estat guardades.
+
+Finalment, solament queda treure per pantalla el gràfic de tipus boxplot, prèvia lectura del fitxer amb les noves actualitzacions.
+
+```{r}
+tryCatch({
+  data2 <- read.csv("pisa_clean.csv", header = TRUE)
+  print("El fitxer amb les dades corregides s'ha llegit correctament")
+}, error = function(e){
+  print("ERROR en el moment de llegir el document:",conditionMessage(e), "\n")
+})
+```
+
+```{r}
+boxplot(data2$readingScore, main = "Diagrama de caixa de les puntuacions de lectura",
+        ylab = "Puntuació", na.action = na.pass)
+```
+
+## 4.2 Variable grade
+
+### Mostreu visualment la distribució de la variable grade (curs). A continuació, reviseu si els valors de la variable grade estan dins dels marges raonables. Per a la mostra d’estudi, composta per estudiants de 15 anys, es correspondria al desè curs. Hi poden haver casos d’estudiants que estiguin en cursos més avançats o en cursos inferiors. Si hi ha un valor extrem o erroni, s’ha de substituir per NA.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
