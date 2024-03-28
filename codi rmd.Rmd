@@ -290,3 +290,12 @@ cat("Mitjana despres d'imputar = ",
 
 Com s'observa en la comparativa de mitjanes, abans d'imputar la mitjana de _schoolSize_ és _NaN_ atès que hi ha valors perduts, però després de la imputació sí que s'obté una mitjana numèrica i real. En altres paraules, abans d'imputar, no era possible obtenir una mitjana d'alumnes, ja que hi havia valors _NA_, després d'imputar sí que és possible obtenir aquesta mitjana atès que ja no hi ha valors _NA_.
 
+# 6: Mesures característiques de les variables numèriques
+
+### Calculeu les mesures de tendència central i dispersió, tant robustes com no robustes, de les variables quantitatives numèriques grade, minutesPerWeekEnglish, studentsInEnglish, schoolSize i readingScore. Es presentaran dues taules, una amb les mesures de tendència central i una altra amb les mesures de dispersió. A la taula de tendència central, mostreu la mitjana, mediana, i mitjana retallada al 5%. A la taula de dispersió, mostreu la desviació estàndard, el rang interquartílic i la desviació absoluta respecte de la mitjana.
+### Requisits:
+###   • Igual que anteriorment, realitzeu aquest càlcul sense haver de calcular la informació de cada variable per separat. Feu servir les funcions de la                família *apply*.
+###   • Per practicar el desenvolupament de funcions en R, us demanem que implementeu la funció que calcula la desviació estàndard i feu servir aquesta funció             en lloc de la funció *sd* que proporciona R.
+### Nota:
+###   • Com que no hem realitzat imputació per a totes les variables numèriques, si existeixen NAs en algunes variables, podeu ignorar aquests valors per fer            aquests càlculs. Podeu fer servir el paràmetre *na.rm=TRUE*.
+
