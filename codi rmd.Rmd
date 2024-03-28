@@ -299,3 +299,68 @@ Com s'observa en la comparativa de mitjanes, abans d'imputar la mitjana de _scho
 ### Nota:
 ###   • Com que no hem realitzat imputació per a totes les variables numèriques, si existeixen NAs en algunes variables, podeu ignorar aquests valors per fer            aquests càlculs. Podeu fer servir el paràmetre *na.rm=TRUE*.
 
+Funció dels càlculs de tendència central
+
+```{r}
+calculs_tendencia_central <- function(col_name){
+  mitjana <- mean(col_name, na.rm = TRUE)
+  mediana <- median(col_name, na.rm = TRUE)
+  mitjana_retallada <- mean(col_name, trim = 0.05, na.rm = TRUE)
+  c(mitjana, mediana, mitjana_retallada)
+}
+```
+
+Funció dels càlculs de dispersió
+
+```{r}
+calcul_desviacio <- function(col_name){
+  mitjana <- mean(col_name, na.rm = TRUE)
+  sumatori_desviacio_quadratica <- sum((col_name - mitjana)^2, na.rm = TRUE)
+  desviacio <- sqrt(sumatori_desviacio_quadratica / total_data)
+  c(desviacio)
+}
+
+
+calculs_dispersio <- function(col_name){
+  desviacio_standard <- calcul_desviacio(col_name)
+  rang <- IQR(col_name, na.rm = TRUE)
+  desviacio_absoluta <- mad(col_name, na.rm = TRUE)
+  c(desviacio_standard, rang, desviacio_absoluta)
+}
+```
+
+Les funcions anteriors realitzen els càlculs que es demanen a l'exercici.
+Com l'únic càlcul que s'ha hagut de "fer a mà" és la desviació estàndard, ja que no es pot usar la funció _sd()_, cal explicar breument com s'ha fet el càlcul.
+En primer lloc, es calcula la mitjana de la columna. Seguidament, es calcula el sumatori dels quadrats de les diferències amb la mitjana i finalment es fa l'arrel quadrada de la variància que no és més que l'arrel quadrada del sumatori entre el nombre total d'ocurrències.
+
+Taula amb els càlculs de tendència central
+
+```{r}
+cols_exercise_6 <- data2[, c("minutesPerWeekEnglish", "studentsInEnglish", "schoolSize",
+                             "readingScore")]
+```
+
+```{r}
+calculations_central <- t(apply(cols_exercise_6, 2, calculs_tendencia_central))
+```
+
+Crida a la funció de càlcul de les mètriques de tendència central i impressió de la taula final
+
+```{r}
+colnames(calculations_central) <- c("Mitjana aritmètica", "Mediana",
+                                    "Mitjana retallada al 5%")
+print(calculations_central)
+```
+
+Crida a la funció de càlcul de les mètriques de dispersió i impressió de la taula final
+
+```{r}
+calculations_dispersio <- t(apply(cols_exercise_6, 2, calculs_dispersio))
+```
+
+```{r}
+colnames(calculations_dispersio) <- c("Desviacio standard",
+                                      "Rang interquartílic",
+                                      "Desviacio absoluta")
+print(calculations_dispersio)
+```
