@@ -259,12 +259,35 @@ En aquest cas, no es considera que hi hagi valors erronis en el conjunt de dades
 
 ## En aquest apartat, farem la imputació sobre els valors perduts de la variable schoolSize. Apliqueu imputació per veïns més propers, utilitzant la distància de Gower, considerant en el còmput dels veïns més propers les variables numèriques. Per realitzar aquesta imputació, es pot fer servir la funció “kNN” de la llibreria VIM amb un nombre de veïns igual a 5. Demostreu que la imputació s’ha realitzat correctament, visualitzant algunes de les dades afectades per la imputació. Finalment, analitzeu des d’un punt de vista crític el procés d’imputació realitzat.
 
+Després d'instal·lar (i carregar) la llibreria VIM es pot procedir a resoldre l'exercici. Per fer-ho, el primer pas serà seleccionar aquelles columnes que volem utilitzar per calcular la distància de Gower. En el nostre cas, i tal com indica l'enunciat, s'usaran totes les variables numèriques. Un cop seleccionades les variables, s'emprarà la funció kNN de la llibreria que s'acaba d'instal·lar tot indicant un nombre de veïns igual a 5 per a calcular la distància de Gower.
+
+```{r}
+variables_calc_dist <- c("grade", "male","preschool", "expectBachelors",
+                         "motherHS","motherBachelors","motherWork",
+                         "fatherHS", "fatherBachelors","fatherWork",
+                         "selfBornUS", "motherBornUS", "fatherBornUS",
+                         "englishAtHome", "computerForSchoolwork",
+                         "schoolHasLibrary", "publicSchool", "urban",
+                         "minutesPerWeekEnglish", "studentsInEnglish",
+                         "readingScore")
+```
+
+Un cop executada la cel·la anterior, queden consolidades les variables a utilitzar. Seguidament es calcula la distància.
+
+```{r}
+library(VIM)
+imputed <- kNN(data2, variable = "schoolSize", dist_var = variables_calc_dist , k = 5)
+```
 
 
+Per comprovar que la imputació s'ha realitzat correctament, es poden comparar les dades originals amb les imputades. Concretament, es compararàn les mitjanes abans i després d'imputar.
 
+```{r}
+cat("Mitjana abans d'imputar = ",
+    mean(data2[is.na(data2$schoolSize),]$schoolSize, na.rm = TRUE), "\n")
+cat("Mitjana despres d'imputar = ",
+    mean((imputed[rownames(data2[is.na(data2$schoolSize),]),])$schoolSize))
+```
 
-
-
-
-
+Com s'observa en la comparativa de mitjanes, abans d'imputar la mitjana de _schoolSize_ és _NaN_ atès que hi ha valors perduts, però després de la imputació sí que s'obté una mitjana numèrica i real. En altres paraules, abans d'imputar, no era possible obtenir una mitjana d'alumnes, ja que hi havia valors _NA_, després d'imputar sí que és possible obtenir aquesta mitjana atès que ja no hi ha valors _NA_.
 
