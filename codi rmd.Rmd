@@ -279,7 +279,6 @@ library(VIM)
 imputed <- kNN(data2, variable = "schoolSize", dist_var = variables_calc_dist , k = 5)
 ```
 
-
 Per comprovar que la imputació s'ha realitzat correctament, es poden comparar les dades originals amb les imputades. Concretament, es compararàn les mitjanes abans i després d'imputar.
 
 ```{r}
